@@ -1,0 +1,117 @@
+@charset "UTF-8";
+nav {
+  width: 150px; }
+
+.selected {
+  border: 1px solid #f90; }
+
+.article a, .article .disabled, .article #main .seriousError, #main .article .seriousError {
+  color: blue; }
+  .article a:hover, .article .disabled:hover, .article #main .seriousError:hover, #main .article .seriousError:hover {
+    color: red; }
+
+/*群组选择器*/
+.button, button {
+  margin: 0%; }
+
+.container h1, .container h2, .container h3 {
+  margin-bottom: .8em; }
+
+nav a, nav .disabled, nav #main .seriousError, #main nav .seriousError, aside a, aside .disabled, aside #main .seriousError, #main aside .seriousError {
+  color: blue; }
+
+article section {
+  margin: 5px; }
+
+article > section {
+  border: 1px solid; }
+
+header + p {
+  font-size: 1.1em; }
+
+article ~ article {
+  border-top: 1px solid; }
+
+article ~ article {
+  border-top: 1px solid; }
+article section {
+  margin: 5px; }
+article > section {
+  background: #eee; }
+article dl > dt {
+  color: #333; }
+article dl > dd {
+  color: #555; }
+nav + article {
+  margin: 0; }
+
+nav border {
+  style: solid;
+  width: 1px;
+  color: #ccc; }
+
+nav {
+  border-style: solid;
+  border-width: 1px; }
+
+.link {
+  color: blue; }
+
+.blue-theme {
+  @import url("./_blue-theme.scss"); }
+
+body {
+  color: #333;
+  padding: 0;
+  /*这种注释会出现在生成的css文件内*/
+  margin: 1 2; }
+
+.notice {
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px; }
+
+ul.plain {
+  color: #444;
+  list-style: none; }
+  ul.plain li {
+    list-style-image: none;
+    list-style-type: none;
+    margin-left: 0px; }
+
+a, .disabled, #main .seriousError {
+  color: blue; }
+  a:hover, .disabled:hover, #main .seriousError:hover {
+    color: red; }
+  a:visited, .disabled:visited, #main .seriousError:visited {
+    color: green; }
+
+text {
+  color: red; }
+  text:hover {
+    color: green; }
+  text:visited {
+    color: blue; }
+
+h1 {
+  color: red; }
+  h1:hover {
+    color: red; }
+  h1:visited {
+    color: red; }
+
+.error, .seriousError {
+  border: 1px solid red; }
+  .error a, .seriousError a, .error .disabled, .seriousError .disabled, .error #main .seriousError, #main .error .seriousError, .seriousError #main .seriousError, #main .seriousError .seriousError {
+    color: red; }
+
+h1.error, h1.seriousError {
+  font-size: 1.2rem; }
+
+.seriousError {
+  border-width: 3px; }
+
+.disabled, #main .seriousError {
+  color: gray; }
+
+/*# sourceMappingURL=output.css.map */

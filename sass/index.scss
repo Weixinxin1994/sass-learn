@@ -1,0 +1,159 @@
+@charset "utf-8";//sass快速入门
+
+$highlight-color:#f90;//变量
+$highlight-border:1px solid $highlight-color;//变量可以相互引用
+nav{
+    $width:150px;
+    width: $width;
+}
+.selected{
+    border:1px solid $highlight-color;//变量引用
+}
+
+.article a{
+    color:blue;
+    &:hover{ //伪类使用&  编译后&被父选择器直接替换
+        color: red;
+    }
+}
+/*群组选择器*/
+.button,button{ 
+    margin: 0%;
+}
+
+.container {
+    h1,h2,h3{
+        margin-bottom: .8em;
+    }
+}
+nav,aside{
+ a{
+     color:blue
+ }
+}
+
+article section{margin: 5px;}//选择article元素的所有section元素
+article>section{ //选择article元素的直接子section元素
+    border:1px solid;
+}
+header + p{//选择header元素后紧跟的p元素
+    font-size: 1.1em;
+}
+article~article{//选择article后的同层article元素
+    border-top: 1px solid;
+}
+
+article{
+    ~article{
+        border-top: 1px solid;
+    }
+    section{
+        margin: 5px;
+    }
+    >section{
+        background: #eee;
+    }
+    dl>{
+        dt{
+            color: #333;
+        }
+        dd{
+            color: #555;
+        }
+    }
+    nav + &{
+        margin: 0;
+    }
+}
+
+nav{
+ border{
+    style:solid;
+    width: 1px;
+    color: #ccc;
+ }
+}
+nav{
+    border-style:solid;
+    border-width:1px;
+}
+
+$link-color:blue !default;//判断$link-default是否被声明赋值，若没有则用blue这个默认值。
+.link{
+    color: $link-color;
+}
+
+.blue-theme{@import url('./_blue-theme.scss');}//嵌套导入，变量和混合器也会局部生效。
+
+//sass支持原生css导入，但是尽量不要这样做，1.将.css后缀改为scss直接导入，2.sass能将代码中的注释抹去
+
+body{
+    color: #333;//这种注释方式不会出现在生成的css文件内
+    padding: 0;/*这种注释会出现在生成的css文件内*/
+    margin: 1 /*这种注释也不会出现在生成的css文件内*/2;
+}
+
+
+//混合器 （避免代码重复，混合器太好用了，要小心使用，大量的重用可能会导致样式表过大，导致加载缓慢）
+@mixin rounded-corners { //用关键字@mixin定义rounded-corners混合器
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border-radius: 5px;
+}
+.notice{
+    @include rounded-corners;//使用@include引用混合器。
+}
+// 混合器命名注意事项：用视觉样式来命名，比如rounded-corners边角的视觉样式。html上类名命名注意事项：用语义化的类名，比如.notice,显而易见是向用户展示提示信息的。
+// 混合器和类配合使用，写出整洁的html和css
+
+@mixin no-bullets{
+    list-style: none;
+    li{
+        list-style-image: none;
+        list-style-type:none;
+        margin-left: 0px;
+    }
+}
+ul.plain{
+    color: #444;
+    @include no-bullets;
+}
+
+//混合器传值，类似js内的方法的形参
+@mixin link-colors($normal,$hover:$normal,$visited:$normal){//给第二个参数设置默认值，若调用时没传此参数，则引用第一个参数
+    color: $normal;
+    &:hover{color: $hover;}
+    &:visited{color: $visited;}
+}
+a{@include link-colors(blue,red ,green )};
+//指定参数时，参数顺序随意
+text{@include link-colors($normal:red,$visited:blue ,$hover:green )}
+h1{@include link-colors(red)}
+
+
+.error{
+    border:1px solid red;
+    a{
+        color: red;//跟.error有关的组合选择器样式也会被应用到继承者身上。
+    }
+}
+h1.error{//跟.error有关的组合选择器样式也会被应用到继承者身上。
+    font-size: 1.2rem;
+}
+.seriousError{
+    @extend .error;//选择器继承，能够有效减少代码重复
+    border-width: 3px;
+}
+
+.disabled{
+    color: gray;
+    @extend a;
+}
+#main .seriousError{
+    @extend .disabled ;//只有完全匹配#main .seriousError这个选择器的元素才会继承.error的内样式。其他元素不会受影响
+}
+
+//@extend是对选择器的替换，比如.seriousError继承.error就是对样式表中所有的.error进行替换，替换为.error .seriousError,跟混合器相比，继承生成的css代码相对更少。因为仅仅是
+//选择器的复制。
+//继承遵从css层叠的规则，当两个不同的css规则应用到同一个html元素上时，通常权重更高的选择器胜出，如果权重相同，定义在后边的规则胜出。
+
