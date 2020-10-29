@@ -131,17 +131,22 @@ text{@include link-colors($normal:red,$visited:blue ,$hover:green )}
 h1{@include link-colors(red)}
 
 
-.error{
-    border:1px solid red;
-    a{
-        color: red;//跟.error有关的组合选择器样式也会被应用到继承者身上。
-    }
-}
-h1.error{//跟.error有关的组合选择器样式也会被应用到继承者身上。
+// .error{
+//     border:1px solid red;
+//     a{
+//         color: red;//跟.error有关的组合选择器样式也会被应用到继承者身上。
+//     }
+// }
+h1,.error{//跟.error有关的组合选择器样式也会被应用到继承者身上。
     font-size: 1.2rem;
 }
 .seriousError{
-    @extend .error;//选择器继承，能够有效减少代码重复
+    @extend h1,.error;//选择器继承，能够有效减少代码重复
+    border-width: 3px;
+}
+
+.error2{
+    @extend .error;
     border-width: 3px;
 }
 

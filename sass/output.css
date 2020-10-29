@@ -14,7 +14,7 @@ nav {
 .button, button {
   margin: 0%; }
 
-.container h1, .container h2, .container h3 {
+.container h1, .container .seriousError, .container h2, .container h3 {
   margin-bottom: .8em; }
 
 nav a, nav .disabled, nav #main .seriousError, #main nav .seriousError, aside a, aside .disabled, aside #main .seriousError, #main aside .seriousError {
@@ -93,22 +93,20 @@ text {
   text:visited {
     color: blue; }
 
-h1 {
+h1, .seriousError {
   color: red; }
-  h1:hover {
+  h1:hover, .seriousError:hover {
     color: red; }
-  h1:visited {
-    color: red; }
-
-.error, .seriousError {
-  border: 1px solid red; }
-  .error a, .seriousError a, .error .disabled, .seriousError .disabled, .error #main .seriousError, #main .error .seriousError, .seriousError #main .seriousError, #main .seriousError .seriousError {
+  h1:visited, .seriousError:visited {
     color: red; }
 
-h1.error, h1.seriousError {
+h1, .seriousError, .error, .seriousError, .error2 {
   font-size: 1.2rem; }
 
 .seriousError {
+  border-width: 3px; }
+
+.error2 {
   border-width: 3px; }
 
 .disabled, #main .seriousError {
