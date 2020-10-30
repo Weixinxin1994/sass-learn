@@ -1,0 +1,107 @@
+@charset "utf-8";
+//默认情况下.sass及.scss文件在项目内的位置是public/stylesheets/sass/下，编译好的css文件放在public/stylesheets下
+//%占位符 只有在@extend的情况下才会被编译到css文件内
+%error{
+    border :1px solid red;
+}
+.seriousError{
+ @extend %error;
+}
+
+/*sassScript*/
+$width:200px;
+
+#main{
+    $width:400px;
+    width: $width;//变量支持块级作用域，嵌套规则内定义的变量只能在内部使用,优先使用自己局部变量，若局部没有则找全局变量使用
+}
+.sidebar{
+    width: $width;
+    $height:200px !global;//!global能够将局部变量转换全局变量
+}
+.info{
+    height: $height;
+}
+
+
+
+/*数据类型
+1.数字 1，2px
+2。字符串 "foo",'foo',foo
+3.颜色 blue,#00000,rgba()
+4.布尔型 true false
+5.空 null
+6.数组，用逗号或者空格分隔 1.5rem 1em 0 2em    1.5rem,1em,0,2em
+7.maps,{key1：value1，key2：value2}
+*/
+
+// $selector:'header';
+
+@mixin firefox-message($selector){
+    body.firefox #{$selector}:before {//#{}将有引号的字符串编译为无引号的字符串，方便选择器的引用
+        content: "Hi, Firefox users!";
+      }
+}
+@include firefox-message(".header");
+
+
+//颜色
+p{
+    color:rgba(225,225,0,0.75) + rgba(0,0,225,0.1)
+}
+
+$translucent-red:rgba(255,0,0,0.5);
+p{
+    color:opacify($translucent-red,0.3);//opacify调整alpha channel
+    background-color:transparentize($translucent-red, 0.25);
+}
+//IE滤镜要求所有的颜色值都包含alpha层，而且格式必须固定#aabbccd 使用ie_hex_str函数可以很容易的将颜色转化为IE滤镜要求的格式。
+$green: #00ff00;
+div {
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled='false', startColorstr='#{ie-hex-str($green)}', endColorstr='#{ie-hex-str($translucent-red)}');
+}
+
+//插值语句#{} 可在选择器或属性名中使用
+
+$name:foo;
+$attr:border;
+p.#{$name}{
+    #{$attr}-color:blue
+}
+
+
+//@media
+.sidebar{
+    width: 300px;
+    @media screen and (orientation:landscape) {
+        width: 500px;
+    }
+}
+
+$media: screen;
+$feature: -webkit-min-device-pixel-ratio;
+$value: 1.5;
+
+@media #{$media} and ($feature: $value) {
+  .sidebar {
+    width: 500px;
+  }
+}
+
+
+//!optional
+a{
+    @extend .a !optional;//当.a没有定义时编译也不会报错，也不会生成新的选择器
+}
+
+//@media内 只能在同层内继承，不可分层
+.error1{border: 1px solid red;}
+@media print{
+    .error{color: red;}
+    .seriouserror{
+        @extend .error;
+        //@extend .error1;//这样做是错的.error1 is used outside of the "@media print" directive
+    }
+}
+
+
