@@ -47,7 +47,7 @@ $width:200px;
 
 //颜色
 p{
-    color:rgba(225,225,0,0.75) + rgba(0,0,225,0.1)
+    // color:rgba(225, 225, 0, 0.75) + rgba(0, 0, 225, 0.1)
 }
 
 $translucent-red:rgba(255,0,0,0.5);
@@ -104,4 +104,121 @@ a{
     }
 }
 
+// 控制指令 @if
+p{
+    @if 1+1==2{border:1px}
+    @if 5<3{border:3px}
+    @if null{border:none}
+}
+$type:ocean;
+p{
+    @if $type == ocean{
+        color:blue
+    }@else if $type== matador{
+        color: red;
+    }@else{
+        color: green;
+    }
+}
+//@for
+@for $var from start to end {//只包含start的值，不包含end的值
+    
+}
+@for $var from start through end {//既包含start的值，又包含end的值
+    
+}
 
+@for $i from 1 to 3 {
+    .item-#{$i} {width: 2em*$i;}
+}
+//@each
+@each $animal in a,b,c,d, {
+    .#{$animal}-icon{
+        background-image: url('/images/#{$animal}.png');
+    }
+}
+
+@each $animal,$color,$cursor in (puma, black,default),(sea-slug,blue,pointer),(egret,white,move){
+    .#{$animal}-icon{
+        background-image: url('/images/#{$animal}.png');
+        border: 1px solid $color;
+        cursor: $cursor;
+    }
+}
+@each $header,$size in (h1:2em,h2:1.5em,h3:1.2em) {
+    #{$heaser}{
+        font-size: $size;
+    }
+}
+//@while
+$i:6;
+@while $i>0{
+    .item-#{$i}{width: 2em*$i;}
+    $i:$i-2;
+}
+
+//mixin direcivesc\参数变量
+@mixin box-shadow($shadows...) {
+    -moz-box-shadow:$shadows;
+    -webkit-box-shadow:$shadows;
+    box-shadow: $shadows;
+}
+.shadows{
+    @include box-shadow(0px 4px 5px #666,2px 6px 10px #999)
+}
+
+@mixin  colors($text,$background,$border) {
+    color: $text;
+    background-color: $background;
+    border-color: $border;
+}
+$values:#ff0000,#00ff00,#0000ff;
+.primary{
+    @include colors($values...)
+}
+//混合样式内导入内容 （像solt一样）
+@mixin apply-to-ie6-only {
+    *html{
+        @content;
+    }
+}
+@include apply-to-ie6-only{
+    #logo{
+        background: fixed;
+    }
+}
+
+
+
+//为便于书写，@mixin 可以用 = 表示，而 @include 可以用 + 表示
+
+//函数指令function directive
+$grid-width:40px;
+$gutter-width:10px;
+
+@function grid-width($n){
+    @return $n*$grid-width+($n - 1)*$gutter-width
+}
+#sidebar{width: grid-width(5);}
+
+
+//Sass默认输出格式
+//:nested
+#main{
+    color: #fff;
+    background-color: #000;}
+    #main p{
+        width: 10em;}
+//:expanded
+#main {
+    color: #fff;
+    background-color: #000;
+}
+#main p{
+    width: 10em;
+}
+//:compact
+#main{color:#fff;background-color: #000;}
+#main p{width: 10em;}
+//:compressed
+#main{color:fff;background-color: #000;}#main p{width:10em}
